@@ -1,10 +1,11 @@
 import React from "react";
+import Hero from "./components/Home_Page/Hero";
 
 const App = () => {
   return (
-    <div className="bg-accent text-primary text-5xl font-bold min-h-screen grid place-content-center underline decoration-4 underline-offset-8 decoration-secondary">
-      Welcome!!
-    </div>
+    <>
+      <Hero />
+    </>
   );
 };
 
