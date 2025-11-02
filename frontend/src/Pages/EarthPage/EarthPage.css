@@ -1,0 +1,12 @@
+.earth-page-main-container{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex: 1;
+    background-color: black;
+    overflow: hidden;
+}
+
+.earth-page-main-container canvas{
+    flex: 1;
+}

@@ -1,12 +1,26 @@
-import React from "react";
-import Hero from "./components/Home_Page/Hero";
+import { useState } from 'react'
+import './App.css'
+import { EarthPage } from "./Pages/EarthPage/EarthPage";
+import { SearchPage } from "./Pages/SearchPage/SearchPage";
+import { Home} from "./Pages/Home/HomePage";
+import { MainLayout } from './Components/MainLayout';
+import { Routes, Route } from "react-router-dom";
+import { PageNotFound } from './Pages/PageNotFound';
 
-const App = () => {
+function App() {
+
   return (
     <>
-      <Hero />
+      <Routes>
+        <Route path="/" element={<MainLayout/>}>
+          <Route index element={<EarthPage/>} />
+          <Route path="home" element={<Home/>}/>
+          <Route path="search" element={<SearchPage/>}/>
+        </Route>
+        <Route path="*" element={<PageNotFound/>}/>
+      </Routes>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

@@ -1,0 +1,229 @@
+/* Filter panel  */
+
+/* Filter panel  */
+
+.portal-container>.filter-panel-container {
+  margin-top: 30px;
+
+  width: 70vw;
+  position: relative;
+  background-color: #f8f9fa;
+  /* Light gray background */
+  border: 1px solid #a2a9b1;
+  border-radius: 4px;
+  padding: 16px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.portal-container .filter-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.portal-container .filter-panel-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #000;
+}
+
+.portal-container .filter-close-btn {
+  font-size: 1.75em;
+  line-height: 1;
+  font-weight: bold;
+  color: #54595d;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.portal-container .filter-close-btn:hover {
+  color: #000;
+}
+
+.portal-container .filter-section {
+  margin-bottom: 16px;
+}
+
+.portal-container .filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.portal-container .filter-section h3 {
+  font-size: 1em;
+  font-weight: 600;
+  color: #202224;
+  margin-bottom: 8px;
+}
+
+.portal-container .filter-date-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.portal-container .filter-date-inputs>div {
+  flex: 1;
+  /* Make date inputs share space */
+}
+
+.portal-container .filter-input {
+  width: 100%;
+  box-sizing: border-box;
+  /* Important for 100% width */
+  padding: 8px 12px;
+  font-size: 1em;
+  border: 1px solid #a2a9b1;
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+
+.portal-container .filter-input:focus {
+  outline: none;
+  border-color: #3366cc;
+  box-shadow: 0 0 0 1px #3366cc;
+}
+
+.portal-container .selected-items-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.portal-container .selected-item-pill {
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 16px;
+  padding: 4px 8px 4px 12px;
+  font-size: 0.9em;
+  color: #202224;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.portal-container .remove-item-btn {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #54595d;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.portal-container .remove-item-btn:hover {
+  color: #000;
+}
+
+/* --- NEW STYLES FOR SEARCHABLE DROPDOWN --- */
+.portal-container .searchable-input-wrapper {
+  position: relative;
+}
+
+.portal-container .suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #a2a9b1;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 20;
+  /* Higher than panel's z-index */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portal-container .suggestion-item {
+  padding: 8px 12px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.portal-container .suggestion-item:hover {
+  background-color: #f0f1f2;
+}
+
+/* --- END OF NEW STYLES --- */
+
+.portal-container .search-results-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.portal-container .search-result-item {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px dotted #a2a9b1;
+}
+
+.portal-container .search-result-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.portal-container .result-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.portal-container .result-title {
+  font-size: 1.2em;
+  /* 19px */
+  font-weight: bold;
+  color: #3366cc;
+  /* Wikipedia's link color */
+  margin-bottom: 4px;
+}
+
+.portal-container .result-link:hover .result-title {
+  text-decoration: underline;
+}
+
+.portal-container .result-meta {
+  font-size: 0.9em;
+  /* 14px */
+  color: #54595d;
+  /* Wikipedia's subtle text color */
+  margin-bottom: 8px;
+}
+
+.portal-container .result-meta-country {
+  font-weight: 600;
+}
+
+.portal-container .result-description {
+  font-size: 1em;
+  /* 16px */
+  line-height: 1.5;
+  color: #202224;
+  margin-bottom: 12px;
+}
+
+.portal-container .result-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.portal-container .result-tag {
+  background-color: #f8f9fa;
+  border: 1px solid #eaecf0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  /* 13px */
+  color: #333;
+}

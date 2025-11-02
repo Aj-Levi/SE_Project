@@ -1,0 +1,29 @@
+{
+  "name": "TimeVault",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "backend": "nodemon backend/index.js",
+    "frontend": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aj-Levi/SE_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Aj-Levi/SE_Project/issues"
+  },
+  "homepage": "https://github.com/Aj-Levi/SE_Project#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1",
+    "dotenv": "^17.2.3",
+    "mongoose": "^8.19.2",
+    "nodemon": "^3.1.10"
+  }
+}

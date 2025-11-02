@@ -1,41 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400..800&family=Bangers&family=Hanalei+Fill&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lavishly+Yours&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Protest+Guerrilla&display=swap');
-@import "tailwindcss";
-@plugin "daisyui" {
-  themes: bumblebee --default, abyss --prefersdark;
+*, *::before, *::after {
+ 	margin: 0;
+ 	padding: 0;
+ 	box-sizing: border-box;
+  outline: none;
+}  
+
+html, body, #root{
+  width: 100%;
+  height: 100%;
+  font-family: "Open Sans", sans-serif;
 }
 
-/* Home Page / Hero section START */
-/* Custom animations for smooth transitions */
-@keyframes slideInLeft {
-  0% {
-    transform: translateX(-200px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+#root{
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes slideInRight {
-  0% {
-    transform: translateX(200px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+@font-face {
+  font-family: 'Open Sans';
+  src: url("/Assets/Fonts/OpenSans.ttf") format("truetype");
 }
 
-@keyframes fadeInUp {
-  0% {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+@font-face {
+  font-family: 'Old Standard TT';
+  src: url("/Assets/Fonts/OldStandardTt.ttf") format("truetype");
 }
-/* Home Page / Hero section END */
+
+
+input, button, textarea, select {
+  font-family: inherit;
+}

@@ -1,0 +1,208 @@
+/* Main container for the entire widget */
+.portal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Wrapper for the central globe and language links */
+.central-widget {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  /* Max width for positioning */
+  height: 350px;
+  /* Fixed height to allow absolute positioning */
+  margin-bottom: 2rem;
+
+}
+
+
+
+.globe-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 5px 1.5px rgba(0, 0, 0, 0.20),
+    0 0 5px 3px rgba(0, 0, 0, 0.16),
+    0 0 5px 4.5px rgba(0, 0, 0, 0.13),
+    0 0 5px 6px rgba(0, 0, 0, 0.10),
+    0 0 5px 7.5px rgba(0, 0, 0, 0.07),
+    0 0 5px 9px rgba(0, 0, 0, 0.04),
+    0 0 5px 10.5px rgba(0, 0, 0, 0.03),
+    0 0 5px 12px rgba(0, 0, 0, 0.01);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.globe-container:hover {
+  box-shadow:
+    0 0 8px 2px rgba(0, 0, 0, 0.23),
+    0 0 8px 4px rgba(0, 0, 0, 0.20),
+    0 0 8px 6px rgba(0, 0, 0, 0.17),
+    0 0 8px 8px rgba(0, 0, 0, 0.14),
+    0 0 8px 10px rgba(0, 0, 0, 0.11),
+    0 0 8px 12px rgba(0, 0, 0, 0.08),
+    0 0 8px 14px rgba(0, 0, 0, 0.05),
+    0 0 8px 16px rgba(0, 0, 0, 0.02),
+    0 0 8px 18px rgba(0, 0, 0, 0.01);
+}
+
+/* The circular placeholder for the globe icon */
+
+/* Styling for each language link block */
+.language-link {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.language-link strong {
+  font-size: 1.1rem;
+  color: #3366cc;
+  /* Link-like color */
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.language-link strong:hover {
+  text-decoration: underline;
+}
+
+.language-link span {
+  font-size: 0.85rem;
+  color: #54595d;
+  /* Subdued text color for count */
+}
+
+/* Manual positioning for each language link 
+          to arrange them around the central globe.
+        */
+.lang-1 {
+  top: 20px;
+  left: 140px;
+  text-align: right;
+}
+
+.lang-2 {
+  top: 20px;
+  right: 140px;
+  text-align: left;
+}
+
+.lang-3 {
+  top: 90px;
+  left: 40px;
+  text-align: right;
+}
+
+.lang-4 {
+  top: 90px;
+  right: 40px;
+  text-align: left;
+}
+
+.lang-5 {
+  top: 160px;
+  left: 0px;
+  text-align: right;
+}
+
+.lang-6 {
+  top: 160px;
+  right: 0px;
+  text-align: left;
+}
+
+.lang-7 {
+  top: 230px;
+  left: 40px;
+  text-align: right;
+}
+
+.lang-8 {
+  top: 230px;
+  right: 40px;
+  text-align: left;
+}
+
+.lang-9 {
+  top: 300px;
+  left: 140px;
+  text-align: right;
+}
+
+.lang-10 {
+  top: 300px;
+  right: 140px;
+  text-align: left;
+}
+
+
+/* Search bar container */
+.search-container {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  /* Match search bar in image 2 */
+  gap: 5px;
+}
+
+
+.search-button {
+  border: none;
+  background-color: #3366cc;
+  /* Blue button from image 2 */
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-left: 1px solid #a2a9b1;
+  /* Separator line */
+}
+
+.search-button:hover {
+  background-color: #447ff5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .central-widget {
+    /* Stack links vertically on small screens */
+    position: static;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .globe-placeholder {
+    position: static;
+    transform: none;
+    margin-bottom: 2rem;
+    width: 150px;
+    height: 150px;
+  }
+
+  .language-link {
+    position: static;
+    text-align: center !important;
+    /* Center all text */
+  }
+
+  .search-container {
+    width: 90%;
+  }
+}

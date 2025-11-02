@@ -1,0 +1,69 @@
+.navbar {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 2.5px 50px 2.5px 50px;
+    border-bottom: 1px solid #000000;
+}
+
+.navbar a {
+    width: fit-content;
+}
+
+.navbar>a:first-of-type {
+    position: relative;
+    top: 1.5px;
+    display: flex;
+    font-size: 1.4rem;
+    color:inherit;
+    font-family: "Old Standard TT", serif;
+    text-decoration: none;
+}
+
+.navbar>a:last-of-type {
+    margin-left: auto;
+}
+
+.navbar > .searchbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.navbar > .searchbar > svg {    
+    width: 25px;
+    height: auto;
+    aspect-ratio: 1/1;
+    padding: 2.5px;
+    border: 1px solid #888888;
+    border-right: none;
+}
+
+.navbar > .searchbar > input {
+    width: 900px;
+    max-width: 200px;
+    height: 25px;
+    padding: 2.5px;
+    font-size: 0.65rem;
+    border: 1px solid #888888;
+    border-left: none;
+}
+
+.navbar > .searchbar > button {
+    width: fit-content;
+    height: 25px;
+    font-weight: bold;
+    padding: 2.5px 10px 2.5px 10px;
+    font-size: 0.65rem;
+    border: 1px solid #888888;
+}
+
+
+
+.navbar > a > img {
+    width: 55px;
+    height: auto;
+    aspect-ratio: 1/1;
+}

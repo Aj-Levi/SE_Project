@@ -1,0 +1,221 @@
+
+
+  .main-content {
+    padding: 2rem;
+    transition: filter 0.4s ease;
+  }
+  
+  .main-content.sidebar-open {
+    filter: blur(4px);
+  }
+
+  .sidebar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .sidebar-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sidebar {
+    position: absolute;
+    top: 0;
+    right: -370px; /* Hidden off-screen to the right */
+    width: 370px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1000;
+    box-sizing: border-box;
+    display: flex;
+    border: 2px solid black;
+    border-right: none;
+    flex-direction: column;
+  }
+
+  .sidebar.open {
+    right: 0; /* Slides into view */
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+  }
+
+  .sidebar-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0.5rem;
+    line-height: 1;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  .close-btn:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+
+  .sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-nav li {
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: #374151;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .sidebar-nav a:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+  
+  .sidebar-nav a .icon {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .open-sidebar-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #4f46e5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .open-sidebar-btn:hover {
+    background-color: #4338ca;
+  }
+  
+  .open-sidebar-btn:active {
+    transform: scale(0.98);
+  }
+
+
+
+
+
+
+
+  .sidebar-content-container {
+    padding: 10px;
+    background-color: #ffffff; /* Typically sidebar content area is white */
+    color: #202122; /* Wikipedia's main text color */
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .sidebar-title {
+    font-size: 1.60em; /* 28px */
+    font-weight: bold;
+    color: #000;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #a2a9b1; /* Wikipedia's border color */
+  }
+
+  .event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .event-item {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    /* Use a dotted border for separation, similar to search results */
+    border-bottom: 1px dotted #a2a9b1;
+  }
+
+  .event-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  /* This wrapper makes the whole item clickable */
+  .event-link {
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+  }
+
+  .event-title {
+    font-size: 1.1em; /* 19px */
+    font-weight: bold;
+    color: #3366cc; /* Wikipedia's link color */
+    margin-bottom: 4px;
+  }
+
+  .event-link:hover .event-title {
+    text-decoration: underline;
+  }
+
+  .event-dates {
+    font-size: 0.8em; /* 14px */
+    color: #54595d; /* Wikipedia's subtle text color */
+    margin-bottom: 8px;
+  }
+
+  .event-description {
+    font-size: 0.9em; /* 16px */
+    line-height: 1.5;
+    color: #202122;
+    margin-bottom: 12px;
+  }
+
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .event-tag {
+    background-color: #f8f9fa; /* A very light gray, like Wikipedia's tables */
+    border: 1px solid #eaecf0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em; /* 13px */
+    color: #333;
+  }
