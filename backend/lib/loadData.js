@@ -7,7 +7,7 @@ const load_data = async () => {
             await Event.create(obj);
             console.log("Event added successfully");
         }catch(err){
-            console.log("could not add event ----> ",err);
+            console.log("could not add event");
         }
     }
 }
