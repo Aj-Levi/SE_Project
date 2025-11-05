@@ -3,6 +3,7 @@ import './App.css'
 import { EarthPage } from "./Pages/EarthPage/EarthPage";
 import { SearchPage } from "./Pages/SearchPage/SearchPage";
 import { Home} from "./Pages/Home/HomePage";
+import EventDetails from "./Pages/EventPage/EventDetails"
 import { MainLayout } from './Components/MainLayout';
 import { Routes, Route } from "react-router-dom";
 import { PageNotFound } from './Pages/PageNotFound';
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<EarthPage/>} />
           <Route path="home" element={<Home/>}/>
           <Route path="search" element={<SearchPage/>}/>
+          <Route path="/event/:id" element={<EventDetails />} />
         </Route>
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>

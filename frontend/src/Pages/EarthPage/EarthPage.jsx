@@ -17,34 +17,6 @@ export const selectedCountryContext = createContext();
 
 export function EarthPage() {
 
-
-    const [events, setEvents] = useState([
-        {
-            eventName: "Quit India Movement Launch",
-            startingDate: "8 Aug 1942",
-            endingDate: "8 Aug 1942",
-            eventDescription: "Mahatma Gandhi launched the Quit India Movement at the Bombay session of the All-India Congress Committee, demanding an end to British rule.",
-            country: "India",
-            eventTags: ["Independence", "Political", "Protest"]
-        },
-        {
-            eventName: "First War of Independence",
-            startingDate: "10 May 1857",
-            endingDate: "1 Nov 1858",
-            eventDescription: "A major, but ultimately unsuccessful, uprising in India against the rule of the British East India Company, which functioned as a sovereign power on behalf of the British Crown.",
-            country: "India",
-            eventTags: ["War", "Uprising", "Colonial"]
-        },
-        {
-            eventName: "Adoption of the Constitution of India",
-            startingDate: "26 Nov 1949",
-            endingDate: "26 Nov 1949",
-            eventDescription: "The Constituent Assembly of India adopted the Constitution of India, which came into effect on 26 January 1950.",
-            country: "India",
-            eventTags: ["Geopolitical", "Legal", "Government"]
-        }
-    ]);
-
     const [date, setDate] = useState(new Date());
     const [hasRotated, setHasRotated] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState(null);
@@ -77,6 +49,7 @@ export function EarthPage() {
 
     useEffect(() => {
         if (selectedCountry !== null) {
+            console.log(date);
             openSidebar();
         }
     }, [
@@ -96,7 +69,6 @@ export function EarthPage() {
     return (
         <div className='earth-page-main-container'>
             <DateSelector onDateChange={onDateChange} />
-
             <Canvas camera={{ position: [0, 0, 10], fov: 75, near: 0.1, far: 1000 }}>
 
                 <ambientLight intensity={2} />
@@ -124,9 +96,10 @@ export function EarthPage() {
                 selectedCountry={selectedCountry}
                 isOpen={isSidebarOpen}
                 onClose={closeSidebar}
-                events={events}
                 onEventClick={handleEventClick}
+                date = {date}
             />
+
         </div>
     );
 }

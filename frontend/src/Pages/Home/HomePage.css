@@ -21,6 +21,25 @@
 
 }
 
+.chatbot-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  background-color: #0078ff;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+.chatbot-button:hover {
+  background-color: #005fcc;
+}
 
 
 .globe-container {

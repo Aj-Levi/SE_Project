@@ -1,32 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SidebarContent } from './SidebarContent';
-import "./Sidebar.css"
-// --- Sample JSON data ---
-// This simulates the dynamic data you'll eventually fetch.
+import "./Sidebar.css";
 
-
-// --- CSS Styles ---
-// Using vanilla CSS directly within the component file for simplicity.
-
-// --- Sidebar Component ---
-export function Sidebar ({ events, handleEventClick,isOpen, onClose,  selectedCountry }) {
-
-
-
-
-
-
+export function Sidebar({ onEventClick, isOpen, onClose, selectedCountry, date }) {
   return (
     <>
-      <div 
+      <div
         className={`sidebar-overlay ${isOpen ? 'open' : ''}`}
         onClick={onClose}
       ></div>
+
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <SidebarContent events={events} handleEventClick={handleEventClick} selectedCountry={selectedCountry} />
+        <SidebarContent selectedCountry={selectedCountry} onEventClick={onEventClick} date = {date} />
       </aside>
     </>
   );
-};
-
-// --- Main App Component ---
+}

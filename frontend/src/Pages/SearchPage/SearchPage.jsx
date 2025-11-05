@@ -1,18 +1,34 @@
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo } from "react";
 import "./SearchPage.css";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { FilterPanel } from "./FilterPanel";
 
+// --- Helpers for DD-MM-YYYY date format ---
+function formatToDDMMYYYY(date) {
+  if (!date) return "N/A";
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+}
 
+function parseDDMMYYYY(str) {
+  if (!str || !/^\d{2}-\d{2}-\d{4}$/.test(str)) return null;
+  const [day, month, year] = str.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
 
-const SearchPageContent = ({ searchResults, onResultClick }) => {
-
+export function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const allAvailableTags = ["Independence", "Political", "Protest", "War", "Uprising", "Colonial", "Revolution", "Geopolitical", "Legal", "Government", "Restoration", "Social"];
-  const allAvailableCountries = ["India", "France", "Japan", "USA", "UK", "Germany", "China", "Russia", "Brazil", "South Africa"];
+  const navigate = useNavigate(); // ✅ navigation hook
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [results, setResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const [allAvailableTags, setAllAvailableTags] = useState([]);
+  const [allAvailableCountries, setAllAvailableCountries] = useState([]);
 
   const [localQuery, setLocalQuery] = useState("");
   const [localCountries, setLocalCountries] = useState([]);
@@ -20,76 +36,144 @@ const SearchPageContent = ({ searchResults, onResultClick }) => {
   const [localStartDate, setLocalStartDate] = useState("");
   const [localEndDate, setLocalEndDate] = useState("");
 
-  const parsedParams = useMemo(() => {
-    // Get raw values
-    const query = searchParams.get('query') || '';
-    const countriesStr = searchParams.get('countries') || '';
-    const tagsStr = searchParams.get('tags') || '';
-    const startingDate = searchParams.get('startingDate') || '';
-    const endingDate = searchParams.get('endingDate') || '';
+  // Fetch tags and countries once
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [tagsRes, countriesRes] = await Promise.all([
+          fetch("http://localhost:5000/api/events/tags"),
+          fetch("http://localhost:5000/api/events/countries")
+        ]);
+        const [tags, countries] = await Promise.all([
+          tagsRes.json(),
+          countriesRes.json()
+        ]);
+        setAllAvailableTags(tags);
+        setAllAvailableCountries(countries);
+      } catch (err) {
+        console.error("Error fetching filters:", err);
+      }
+    };
+    fetchData();
+  }, []);
 
+  // Parse URL parameters
+  const parsedParams = useMemo(() => {
+    const query = searchParams.get("query") || "";
+    const countriesStr = searchParams.get("countries") || "";
+    const tagsStr = searchParams.get("tags") || "";
+    const startingDate = searchParams.get("startingDate") || "";
+    const endingDate = searchParams.get("endingDate") || "";
 
     setLocalQuery(query);
+    setLocalCountries(countriesStr ? countriesStr.split(",") : []);
+    setLocalTags(tagsStr ? tagsStr.split(",") : []);
     setLocalStartDate(startingDate);
     setLocalEndDate(endingDate);
-    setLocalCountries(countriesStr ? countriesStr.split(',') : []);
-    setLocalTags(tagsStr ? tagsStr.split(',') : []);
-    // Return parsed values
+
     return {
       query,
-      countries: countriesStr ? countriesStr.split(',') : [],
-      tags: tagsStr ? tagsStr.split(',') : [],
+      countries: countriesStr ? countriesStr.split(",") : [],
+      tags: tagsStr ? tagsStr.split(",") : [],
       startingDate,
-      endingDate,
+      endingDate
     };
   }, [searchParams]);
 
+  // Fetch events when user searches or filters
+  useEffect(() => {
+    const hasActiveFilters =
+      parsedParams.query ||
+      parsedParams.countries.length > 0 ||
+      parsedParams.tags.length > 0 ||
+      parsedParams.startingDate ||
+      parsedParams.endingDate;
 
-  // We use useMemo to create a "parsed" version of the search params.
-  // This object will be our "single source of truth" from the URL.
+    if (!hasActiveFilters) return;
 
+    const fetchEvents = async () => {
+      setHasSearched(true);
+      const params = new URLSearchParams();
 
+      if (parsedParams.query) params.append("query", parsedParams.query);
+      if (parsedParams.countries.length > 0)
+        params.append("countries", parsedParams.countries.join(","));
+      if (parsedParams.tags.length > 0)
+        params.append("tags", parsedParams.tags.join(","));
 
+      const start = parseDDMMYYYY(parsedParams.startingDate);
+      const end = parseDDMMYYYY(parsedParams.endingDate);
+      if (start && end) {
+        params.append("startingDate", start.toISOString());
+        params.append("endingDate", end.toISOString());
+      }
+
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/events/search?${params.toString()}`
+        );
+        const data = await res.json();
+
+        const formatted = data.map((e) => ({
+          id: e._id, // ✅ keep the MongoDB id
+          eventName: e.coreInfo?.eventName || e.title || "Untitled Event",
+          startingDate: e.coreInfo?.startingDate
+            ? formatToDDMMYYYY(e.coreInfo.startingDate)
+            : "N/A",
+          endingDate: e.coreInfo?.endDate
+            ? formatToDDMMYYYY(e.coreInfo.endDate)
+            : "N/A",
+          eventDescription:
+            e.summary?.length > 100
+              ? e.summary.slice(0, 100) + "..."
+              : e.summary || "No summary",
+          country: e.coreInfo?.country || "",
+          eventTags: e.coreInfo?.eventTags || []
+        }));
+
+        setResults(formatted);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+        setResults([]);
+      }
+    };
+
+    fetchEvents();
+  }, [parsedParams]);
+
+  // When user presses search
   const handleSearchSubmit = (e) => {
-
     e.preventDefault();
-
     const newParams = {};
-
-    if (localQuery) {
-      newParams.query = localQuery;
-    }
-    if (localCountries.length > 0) {
-      newParams.countries = localCountries.join(',');
-    }
-    if (localTags.length > 0) {
-      newParams.tags = localTags.join(',');
-    }
-    if (localStartDate) {
-      newParams.startingDate = localStartDate;
-    }
-    if (localEndDate) {
-      newParams.endingDate = localEndDate;
-    }
+    if (localQuery) newParams.query = localQuery;
+    if (localCountries.length > 0)
+      newParams.countries = localCountries.join(",");
+    if (localTags.length > 0) newParams.tags = localTags.join(",");
+    if (localStartDate) newParams.startingDate = localStartDate;
+    if (localEndDate) newParams.endingDate = localEndDate;
 
     setSearchParams(newParams);
   };
 
-
   const handleFilterToggle = (forceState) => {
-    console.log(typeof true)
-    if (typeof forceState === 'boolean') {
-      setIsFilterOpen(forceState);
-    } else {
-      setIsFilterOpen(!isFilterOpen);
+    if (typeof forceState === "boolean") setIsFilterOpen(forceState);
+    else setIsFilterOpen(!isFilterOpen);
+  };
+
+  // ✅ Navigate to event details when clicked
+  const handleResultClick = (event) => {
+    if (!event.id) {
+      console.warn("No id found for event:", event);
+      return;
     }
+    navigate(`/event/${encodeURIComponent(event.id)}`);
   };
 
   return (
     <main className="search-page-main">
       <h1 className="search-header">Search results</h1>
 
-      {/* Search Form */}
+      {/* Search Bar + Filter */}
       <form className="search-form-container" onSubmit={handleSearchSubmit}>
         <input
           type="search"
@@ -98,11 +182,16 @@ const SearchPageContent = ({ searchResults, onResultClick }) => {
           value={localQuery}
           onChange={(e) => setLocalQuery(e.target.value)}
         />
-        <button type="submit" className="search-button">Search</button>
-        <button type="button" className="filter-button" onClick={handleFilterToggle}>
+        <button type="submit" className="search-button">
+          Search
+        </button>
+        <button
+          type="button"
+          className="filter-button"
+          onClick={handleFilterToggle}
+        >
           Filter
         </button>
-
 
         {isFilterOpen && (
           <FilterPanel
@@ -114,87 +203,48 @@ const SearchPageContent = ({ searchResults, onResultClick }) => {
             setLocalTags={setLocalTags}
             localCountries={localCountries}
             setLocalCountries={setLocalCountries}
-            onClose={() => handleFilterToggle(false)} // Pass a function to close
-            allAvailableTags={allAvailableTags} // Pass down
-            allAvailableCountries={allAvailableCountries} // Pass down
+            onClose={() => handleFilterToggle(false)}
+            allAvailableTags={allAvailableTags}
+            allAvailableCountries={allAvailableCountries}
           />
         )}
       </form>
 
-      {/* Results List */}
-      <ul className="search-results-list">
-        {searchResults.map((event, index) => (
-          <li key={index} className="search-result-item">
-            <div className="result-link" onClick={() => onResultClick(event)}>
-              <h2 className="result-title">{event.eventName}</h2>
-              <div className="result-meta">
-                <span className="result-meta-country">{event.country}</span> | {event.startingDate} – {event.endingDate}
+      {/* Conditional Rendering */}
+      {!hasSearched ? (
+        <p className="no-results-text">
+          No data yet. Please search or apply filters.
+        </p>
+      ) : results.length === 0 ? (
+        <p className="no-results-text">No matching events found.</p>
+      ) : (
+        <ul className="search-results-list">
+          {results.map((event) => (
+            <li key={event.id} className="search-result-item">
+              <div
+                className="result-link"
+                onClick={() => handleResultClick(event)}
+                role="button"
+                tabIndex={0}
+              >
+                <h2 className="result-title">{event.eventName}</h2>
+                <div className="result-meta">
+                  <span className="result-meta-country">{event.country}</span>{" "}
+                  | {event.startingDate} – {event.endingDate}
+                </div>
+                <p className="result-description">{event.eventDescription}</p>
+                <div className="result-tags">
+                  {event.eventTags.map((tag, tagIndex) => (
+                    <span key={tagIndex} className="result-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <p className="result-description">{event.eventDescription}</p>
-              <div className="result-tags">
-                {event.eventTags.map((tag, tagIndex) => (
-                  <span key={tagIndex} className="result-tag">{tag}</span>
-                ))}
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
-  );
-};
-
-/**
- * This is the main App component for demonstration.
- * You can remove this and export SearchPageContent as the default.
- */
-export function SearchPage() {
-  // Temporary state for demonstration
-  const [results] = useState([
-    {
-      eventName: "Quit India Movement Launch",
-      startingDate: "8 Aug 1942",
-      endingDate: "8 Aug 1942",
-      eventDescription: "Mahatma Gandhi launched the Quit India Movement at the Bombay session of the All-India Congress Committee, demanding an end to British rule.",
-      country: "India",
-      eventTags: ["Independence", "Political", "Protest"]
-    },
-    {
-      eventName: "Storming of the Bastille",
-      startingDate: "14 Jul 1789",
-      endingDate: "14 Jul 1789",
-      eventDescription: "A pivotal event in the French Revolution, the medieval fortress, armory, and political prison known as the Bastille was stormed by a crowd.",
-      country: "France",
-      eventTags: ["Revolution", "War", "Geopolitical"]
-    },
-    {
-      eventName: "Meiji Restoration",
-      startingDate: "3 Jan 1868",
-      endingDate: "27 Jul 1912",
-      eventDescription: "A political event that restored practical imperial rule to Japan in 1868 under Emperor Meiji, leading to enormous changes in Japan's political and social structure.",
-      country: "Japan",
-      eventTags: ["Political", "Restoration", "Government"]
-    }
-  ]);
-
-  // Dummy functions for the handlers
-  const handleResultClick = (event) => {
-    console.log("Loading event page for:", event.eventName);
-    // You would navigate to the event page here
-  };
-
-  const handleSearch = (query) => {
-    console.log("Searching for:", query);
-    // You would trigger your database search here
-  };
-
-
-  return (
-    <>
-      <SearchPageContent
-        searchResults={results}
-        onResultClick={handleResultClick}
-      />
-    </>
   );
 }

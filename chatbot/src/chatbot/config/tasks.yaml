@@ -1,0 +1,19 @@
+geopolitics_analysis_task:
+  description: >
+    You will receive a question related to world geopolitics or a specific country's
+    political history. Using the provided knowledge sources, research the relevant
+    events of 1950's , historical context of 1950's , and geopolitical implications to produce a precise,
+    well-structured answer. Always rely on the knowledge sources for your
+    response and based of the timeline of 1950's.
+
+    Question:
+    {question}
+
+  expected_output: >
+    A short about (4-5 lines) and factual answer to the question, clearly referencing relevant events of the 1950 year,
+    and geopolitical factors of that time that is 1950 that shaped the country's or region's current
+    position. Your final answer MUST be based solely on the given knowledge sources and
+    demonstrate expert-level geopolitical insight.
+
+  markdown: false
+

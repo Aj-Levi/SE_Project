@@ -86,7 +86,8 @@ const EventSchema = new mongoose.Schema({
     }
   }
 
-}, {
+},
+ {
   timestamps: true
 });
 
