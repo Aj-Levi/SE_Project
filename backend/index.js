@@ -12,6 +12,8 @@ app.use(cors()); // ← add this
 app.use(express.json());
 app.use("/api/events", eventRoutes);
 
+const port = process.env.PORT || 5000;
+
 app.listen(process.env.PORT || 5000, () => {
-  console.log("Server running");
+  console.log(`Server running on port ${port}`);
 });

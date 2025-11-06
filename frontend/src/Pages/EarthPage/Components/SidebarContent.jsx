@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 export function SidebarContent({ selectedCountry, date }) {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,8 @@ export function SidebarContent({ selectedCountry, date }) {
         const isoDate = new Date(date).toISOString();
 
         const response = await fetch(
-          `http://localhost:5000/api/events/by-date?country=${encodeURIComponent(
+          `
+          ${baseURL}/api/events/by-date?country=${encodeURIComponent(
             selectedCountry
           )}&date=${encodeURIComponent(isoDate)}`
         );

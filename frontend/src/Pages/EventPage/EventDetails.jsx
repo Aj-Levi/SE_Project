@@ -6,6 +6,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./EventDetails.css";
 import { ChatPanel } from "./ChatPanel";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const EventDetails = () => {
   const { id: idParam } = useParams(); // now expecting id
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ const EventDetails = () => {
 
       try {
         console.log("1");
-        const resp = await fetch(`http://localhost:5000/api/events/id/${id}`);
+        const resp = await fetch(`${baseURL}/api/events/id/${id}`);
         if (!resp.ok) {
           const text = await resp.text();
           throw new Error(text || "Failed to fetch event");

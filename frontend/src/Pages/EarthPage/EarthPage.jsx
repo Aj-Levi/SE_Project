@@ -1,4 +1,3 @@
-
 import { useState, useEffect, Suspense, createContext, useContext, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars, useTexture } from '@react-three/drei';
@@ -10,8 +9,6 @@ import { Sidebar } from './Components/Sidebar';
 import { months } from "./Helpers/months";
 
 import "./EarthPage.css";
-
-
 
 export const selectedCountryContext = createContext();
 

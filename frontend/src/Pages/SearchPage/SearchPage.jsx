@@ -3,6 +3,8 @@ import "./SearchPage.css";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { FilterPanel } from "./FilterPanel";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 // --- Helpers for DD-MM-YYYY date format ---
 function formatToDDMMYYYY(date) {
   if (!date) return "N/A";
@@ -41,8 +43,8 @@ export function SearchPage() {
     const fetchData = async () => {
       try {
         const [tagsRes, countriesRes] = await Promise.all([
-          fetch("http://localhost:5000/api/events/tags"),
-          fetch("http://localhost:5000/api/events/countries")
+          fetch(`${baseURL}/api/events/tags`),
+          fetch(`${baseURL}/api/events/countries`)
         ]);
         const [tags, countries] = await Promise.all([
           tagsRes.json(),
@@ -110,7 +112,7 @@ export function SearchPage() {
 
       try {
         const res = await fetch(
-          `http://localhost:5000/api/events/search?${params.toString()}`
+          `${baseURL}/api/events/search?${params.toString()}`
         );
         const data = await res.json();
 
