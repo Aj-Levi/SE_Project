@@ -19,7 +19,7 @@ export const register = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            role
+            role,
         })
         return res.status(201).json({ message: 'Account Created successfully ', success: true })
     } catch (error) {
@@ -56,6 +56,8 @@ export const login = async (req, res) => {
             name: user.name,
             role: user.role,
             email: user.email,
+            contributions: user.contributions,
+            score: user.score
         }
         const token = await jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' })
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax',secure:false }).json({ message: `Welcome ${(user.name).toUpperCase()}`, success: true, user })
@@ -79,7 +81,7 @@ export const logout = async (req, res) => {
 
     }
 }
-export const gettop5=async(req,res)=>{
+export const gettop10=async(req,res)=>{
     try {
         const topUsers=await User.find()
         .sort({score:-1})
