@@ -33,6 +33,7 @@ const EventSchema = new mongoose.Schema({
   title: { type: String, required: true, trim: true },
   subtitle: { type: String, default: '' },
   summary: { type: String, default: '' },
+  views: { type: Number, default: 0},
 
   coreInfo: {
     eventName: { type: String, required: true },
@@ -93,6 +94,7 @@ const EventSchema = new mongoose.Schema({
 
 EventSchema.index({ title: 'text', summary: 'text', 'coreInfo.eventName': 'text' });
 EventSchema.index({ 'coreInfo.eventTags': 1 });
+EventSchema.index({ views: -1 });
 
 const Event = mongoose.model("Event", EventSchema);
 export default Event;
